@@ -28,7 +28,7 @@ endif
 # Windows cross compilation from Linux
 #CONFIG_WIN32=y
 # use link time optimization (smaller and faster executables but slower build)
-CONFIG_LTO=y
+#CONFIG_LTO=y
 # consider warnings as errors (for development)
 #CONFIG_WERROR=y
 # force 32 bit build for some utilities
@@ -48,7 +48,7 @@ prefix=/usr/local
 # use address sanitizer
 #CONFIG_ASAN=y
 # include the code for BigInt/BigFloat/BigDecimal and math mode
-CONFIG_BIGNUM=y
+#CONFIG_BIGNUM=y
 
 OBJDIR=.obj
 
@@ -109,8 +109,8 @@ endif
 
 CFLAGS+=$(DEFINES)
 CFLAGS_DEBUG=$(CFLAGS) -O0
-CFLAGS_SMALL=$(CFLAGS) -Os
-CFLAGS_OPT=$(CFLAGS) -O2
+CFLAGS_SMALL=$(CFLAGS) -O0
+CFLAGS_OPT=$(CFLAGS) -O0
 CFLAGS_NOLTO:=$(CFLAGS_OPT)
 LDFLAGS=-g
 ifdef CONFIG_LTO

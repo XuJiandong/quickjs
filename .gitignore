@@ -1,0 +1,12 @@
+.obj/
+examples/hello
+examples/hello_module
+examples/test_fib
+hello.c
+libquickjs.a
+qjs
+qjsc
+qjscalc
+repl.c
+run-test262
+test_fib.c

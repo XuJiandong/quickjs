@@ -1,0 +1,17 @@
+name: CI
+
+on: [push, pull_request]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        submodules: recursive
+    - name: Build on linux
+      run: make
+    - name: Run hello on linux
+      run: ./qjs examples/hello.js
