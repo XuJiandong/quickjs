@@ -27,10 +27,10 @@
 #include <stdarg.h>
 #include <inttypes.h>
 #include <string.h>
-#include <assert.h>
-#include <sys/time.h>
-#include <time.h>
-#include <fenv.h>
+// #include <assert.h>
+// #include <sys/time.h>
+// #include <time.h>
+// #include <fenv.h>
 #include <math.h>
 #if defined(__APPLE__)
 #include <malloc/malloc.h>
@@ -48,6 +48,9 @@
 #include "libbf.h"
 #endif
 
+#include "mocked.h"
+
+
 #define OPTIMIZE         1
 #define SHORT_OPCODES    1
 #if defined(EMSCRIPTEN)
@@ -62,10 +65,10 @@
 #define MALLOC_OVERHEAD  8
 #endif
 
-#if !defined(_WIN32)
+// #if !defined(_WIN32)
 /* define it if printf uses the RNDN rounding mode instead of RNDNA */
-#define CONFIG_PRINTF_RNDN
-#endif
+// #define CONFIG_PRINTF_RNDN
+// #endif
 
 /* define to include Atomics.* operations which depend on the OS
    threads */
@@ -73,10 +76,10 @@
 // #define CONFIG_ATOMICS
 // #endif
 
-#if !defined(EMSCRIPTEN)
+// #if !defined(EMSCRIPTEN)
 /* enable stack limitation */
-#define CONFIG_STACK_CHECK
-#endif
+// #define CONFIG_STACK_CHECK
+// #endif
 
 
 /* dump object free */
@@ -48742,59 +48745,59 @@ done:
 }
 
 static const JSCFunctionListEntry js_date_funcs[] = {
-    JS_CFUNC_DEF("now", 0, js_Date_now ),
-    JS_CFUNC_DEF("parse", 1, js_Date_parse ),
-    JS_CFUNC_DEF("UTC", 7, js_Date_UTC ),
+    // JS_CFUNC_DEF("now", 0, js_Date_now ),
+    // JS_CFUNC_DEF("parse", 1, js_Date_parse ),
+    // JS_CFUNC_DEF("UTC", 7, js_Date_UTC ),
 };
 
 static const JSCFunctionListEntry js_date_proto_funcs[] = {
-    JS_CFUNC_DEF("valueOf", 0, js_date_getTime ),
-    JS_CFUNC_MAGIC_DEF("toString", 0, get_date_string, 0x13 ),
-    JS_CFUNC_DEF("[Symbol.toPrimitive]", 1, js_date_Symbol_toPrimitive ),
-    JS_CFUNC_MAGIC_DEF("toUTCString", 0, get_date_string, 0x03 ),
-    JS_ALIAS_DEF("toGMTString", "toUTCString" ),
-    JS_CFUNC_MAGIC_DEF("toISOString", 0, get_date_string, 0x23 ),
-    JS_CFUNC_MAGIC_DEF("toDateString", 0, get_date_string, 0x11 ),
-    JS_CFUNC_MAGIC_DEF("toTimeString", 0, get_date_string, 0x12 ),
-    JS_CFUNC_MAGIC_DEF("toLocaleString", 0, get_date_string, 0x33 ),
-    JS_CFUNC_MAGIC_DEF("toLocaleDateString", 0, get_date_string, 0x31 ),
-    JS_CFUNC_MAGIC_DEF("toLocaleTimeString", 0, get_date_string, 0x32 ),
-    JS_CFUNC_DEF("getTimezoneOffset", 0, js_date_getTimezoneOffset ),
-    JS_CFUNC_DEF("getTime", 0, js_date_getTime ),
-    JS_CFUNC_MAGIC_DEF("getYear", 0, get_date_field, 0x101 ),
-    JS_CFUNC_MAGIC_DEF("getFullYear", 0, get_date_field, 0x01 ),
-    JS_CFUNC_MAGIC_DEF("getUTCFullYear", 0, get_date_field, 0x00 ),
-    JS_CFUNC_MAGIC_DEF("getMonth", 0, get_date_field, 0x11 ),
-    JS_CFUNC_MAGIC_DEF("getUTCMonth", 0, get_date_field, 0x10 ),
-    JS_CFUNC_MAGIC_DEF("getDate", 0, get_date_field, 0x21 ),
-    JS_CFUNC_MAGIC_DEF("getUTCDate", 0, get_date_field, 0x20 ),
-    JS_CFUNC_MAGIC_DEF("getHours", 0, get_date_field, 0x31 ),
-    JS_CFUNC_MAGIC_DEF("getUTCHours", 0, get_date_field, 0x30 ),
-    JS_CFUNC_MAGIC_DEF("getMinutes", 0, get_date_field, 0x41 ),
-    JS_CFUNC_MAGIC_DEF("getUTCMinutes", 0, get_date_field, 0x40 ),
-    JS_CFUNC_MAGIC_DEF("getSeconds", 0, get_date_field, 0x51 ),
-    JS_CFUNC_MAGIC_DEF("getUTCSeconds", 0, get_date_field, 0x50 ),
-    JS_CFUNC_MAGIC_DEF("getMilliseconds", 0, get_date_field, 0x61 ),
-    JS_CFUNC_MAGIC_DEF("getUTCMilliseconds", 0, get_date_field, 0x60 ),
-    JS_CFUNC_MAGIC_DEF("getDay", 0, get_date_field, 0x71 ),
-    JS_CFUNC_MAGIC_DEF("getUTCDay", 0, get_date_field, 0x70 ),
-    JS_CFUNC_DEF("setTime", 1, js_date_setTime ),
-    JS_CFUNC_MAGIC_DEF("setMilliseconds", 1, set_date_field, 0x671 ),
-    JS_CFUNC_MAGIC_DEF("setUTCMilliseconds", 1, set_date_field, 0x670 ),
-    JS_CFUNC_MAGIC_DEF("setSeconds", 2, set_date_field, 0x571 ),
-    JS_CFUNC_MAGIC_DEF("setUTCSeconds", 2, set_date_field, 0x570 ),
-    JS_CFUNC_MAGIC_DEF("setMinutes", 3, set_date_field, 0x471 ),
-    JS_CFUNC_MAGIC_DEF("setUTCMinutes", 3, set_date_field, 0x470 ),
-    JS_CFUNC_MAGIC_DEF("setHours", 4, set_date_field, 0x371 ),
-    JS_CFUNC_MAGIC_DEF("setUTCHours", 4, set_date_field, 0x370 ),
-    JS_CFUNC_MAGIC_DEF("setDate", 1, set_date_field, 0x231 ),
-    JS_CFUNC_MAGIC_DEF("setUTCDate", 1, set_date_field, 0x230 ),
-    JS_CFUNC_MAGIC_DEF("setMonth", 2, set_date_field, 0x131 ),
-    JS_CFUNC_MAGIC_DEF("setUTCMonth", 2, set_date_field, 0x130 ),
-    JS_CFUNC_DEF("setYear", 1, js_date_setYear ),
-    JS_CFUNC_MAGIC_DEF("setFullYear", 3, set_date_field, 0x031 ),
-    JS_CFUNC_MAGIC_DEF("setUTCFullYear", 3, set_date_field, 0x030 ),
-    JS_CFUNC_DEF("toJSON", 1, js_date_toJSON ),
+    // JS_CFUNC_DEF("valueOf", 0, js_date_getTime ),
+    // JS_CFUNC_MAGIC_DEF("toString", 0, get_date_string, 0x13 ),
+    // JS_CFUNC_DEF("[Symbol.toPrimitive]", 1, js_date_Symbol_toPrimitive ),
+    // JS_CFUNC_MAGIC_DEF("toUTCString", 0, get_date_string, 0x03 ),
+    // JS_ALIAS_DEF("toGMTString", "toUTCString" ),
+    // JS_CFUNC_MAGIC_DEF("toISOString", 0, get_date_string, 0x23 ),
+    // JS_CFUNC_MAGIC_DEF("toDateString", 0, get_date_string, 0x11 ),
+    // JS_CFUNC_MAGIC_DEF("toTimeString", 0, get_date_string, 0x12 ),
+    // JS_CFUNC_MAGIC_DEF("toLocaleString", 0, get_date_string, 0x33 ),
+    // JS_CFUNC_MAGIC_DEF("toLocaleDateString", 0, get_date_string, 0x31 ),
+    // JS_CFUNC_MAGIC_DEF("toLocaleTimeString", 0, get_date_string, 0x32 ),
+    // JS_CFUNC_DEF("getTimezoneOffset", 0, js_date_getTimezoneOffset ),
+    // JS_CFUNC_DEF("getTime", 0, js_date_getTime ),
+    // JS_CFUNC_MAGIC_DEF("getYear", 0, get_date_field, 0x101 ),
+    // JS_CFUNC_MAGIC_DEF("getFullYear", 0, get_date_field, 0x01 ),
+    // JS_CFUNC_MAGIC_DEF("getUTCFullYear", 0, get_date_field, 0x00 ),
+    // JS_CFUNC_MAGIC_DEF("getMonth", 0, get_date_field, 0x11 ),
+    // JS_CFUNC_MAGIC_DEF("getUTCMonth", 0, get_date_field, 0x10 ),
+    // JS_CFUNC_MAGIC_DEF("getDate", 0, get_date_field, 0x21 ),
+    // JS_CFUNC_MAGIC_DEF("getUTCDate", 0, get_date_field, 0x20 ),
+    // JS_CFUNC_MAGIC_DEF("getHours", 0, get_date_field, 0x31 ),
+    // JS_CFUNC_MAGIC_DEF("getUTCHours", 0, get_date_field, 0x30 ),
+    // JS_CFUNC_MAGIC_DEF("getMinutes", 0, get_date_field, 0x41 ),
+    // JS_CFUNC_MAGIC_DEF("getUTCMinutes", 0, get_date_field, 0x40 ),
+    // JS_CFUNC_MAGIC_DEF("getSeconds", 0, get_date_field, 0x51 ),
+    // JS_CFUNC_MAGIC_DEF("getUTCSeconds", 0, get_date_field, 0x50 ),
+    // JS_CFUNC_MAGIC_DEF("getMilliseconds", 0, get_date_field, 0x61 ),
+    // JS_CFUNC_MAGIC_DEF("getUTCMilliseconds", 0, get_date_field, 0x60 ),
+    // JS_CFUNC_MAGIC_DEF("getDay", 0, get_date_field, 0x71 ),
+    // JS_CFUNC_MAGIC_DEF("getUTCDay", 0, get_date_field, 0x70 ),
+    // JS_CFUNC_DEF("setTime", 1, js_date_setTime ),
+    // JS_CFUNC_MAGIC_DEF("setMilliseconds", 1, set_date_field, 0x671 ),
+    // JS_CFUNC_MAGIC_DEF("setUTCMilliseconds", 1, set_date_field, 0x670 ),
+    // JS_CFUNC_MAGIC_DEF("setSeconds", 2, set_date_field, 0x571 ),
+    // JS_CFUNC_MAGIC_DEF("setUTCSeconds", 2, set_date_field, 0x570 ),
+    // JS_CFUNC_MAGIC_DEF("setMinutes", 3, set_date_field, 0x471 ),
+    // JS_CFUNC_MAGIC_DEF("setUTCMinutes", 3, set_date_field, 0x470 ),
+    // JS_CFUNC_MAGIC_DEF("setHours", 4, set_date_field, 0x371 ),
+    // JS_CFUNC_MAGIC_DEF("setUTCHours", 4, set_date_field, 0x370 ),
+    // JS_CFUNC_MAGIC_DEF("setDate", 1, set_date_field, 0x231 ),
+    // JS_CFUNC_MAGIC_DEF("setUTCDate", 1, set_date_field, 0x230 ),
+    // JS_CFUNC_MAGIC_DEF("setMonth", 2, set_date_field, 0x131 ),
+    // JS_CFUNC_MAGIC_DEF("setUTCMonth", 2, set_date_field, 0x130 ),
+    // JS_CFUNC_DEF("setYear", 1, js_date_setYear ),
+    // JS_CFUNC_MAGIC_DEF("setFullYear", 3, set_date_field, 0x031 ),
+    // JS_CFUNC_MAGIC_DEF("setUTCFullYear", 3, set_date_field, 0x030 ),
+    // JS_CFUNC_DEF("toJSON", 1, js_date_toJSON ),
 };
 
 void JS_AddIntrinsicDate(JSContext *ctx)
