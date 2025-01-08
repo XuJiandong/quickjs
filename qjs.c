@@ -504,7 +504,15 @@ int main(int argc, char **argv)
         }
 
         if (expr) {
-            if (eval_buf(ctx, expr, strlen(expr), "<cmdline>", 0))
+            printf("showing bug in eval_buf\n");
+            const char* extra_script = "init.fs";
+            size_t expr_len = strlen(expr);
+            char* debug_buf = malloc(expr_len + 100);
+            // first part is expr, without trailing zero
+            memcpy(debug_buf, expr, expr_len);
+            // immediately followed by a invalid script
+            memcpy(debug_buf + expr_len, extra_script, strlen(extra_script));
+            if (eval_buf(ctx, debug_buf, expr_len, "<cmdline>", 0))
                 goto fail;
         } else
         if (optind >= argc) {
