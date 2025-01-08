@@ -74,7 +74,16 @@ static int eval_buf(JSContext *ctx, const void *buf, int buf_len,
         js_std_dump_error(ctx);
         ret = -1;
     } else {
-        ret = 0;
+        if ((eval_flags & JS_EVAL_TYPE_MASK) == JS_EVAL_TYPE_MODULE) {
+            int promise_state = JS_PromiseState(ctx, val);
+            if (promise_state == JS_PROMISE_REJECTED) {
+                ret = -1;
+            } else {
+                ret = 0;
+            }
+        } else {
+            return 0;
+        }
     }
     JS_FreeValue(ctx, val);
     return ret;
