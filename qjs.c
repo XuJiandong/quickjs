@@ -501,7 +501,7 @@ int main(int argc, char **argv)
         }
 
         if (expr) {
-            printf("showing bug in eval_buf");
+            printf("showing bug in eval_buf\n");
             const char* extra_script = "init.fs";
             size_t expr_len = strlen(expr);
             char* debug_buf = malloc(expr_len + 100);
